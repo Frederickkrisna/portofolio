@@ -1,103 +1,439 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { FiGithub, FiLinkedin, FiMail, FiPhone, FiMapPin, FiExternalLink, FiCode, FiInstagram} from 'react-icons/fi';
+import { FaReact, FaNodeJs, FaPython, FaAws } from 'react-icons/fa';
+import { SiTypescript, SiNextdotjs, SiPostgresql, SiMongodb, SiStripe, SiSocketdotio, SiFastapi, SiExpress } from 'react-icons/si';
+import { TbBrandJavascript } from 'react-icons/tb';
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  tech: string[];
+  image: string;
+  github: string;
+  website: string;
+}
+
+interface Experience {
+  company: string;
+  role: string;
+  period: string;
+  description: string;
+}
+
+interface PortfolioData {
+  name: string;
+  nickname: string;
+  role: string;
+  email: string;
+  phone: string;
+  location: string;
+  bio: string;
+  skills: string[];
+  projects: Project[];
+  experience: Experience[];
+  social: {
+    github: string;
+    linkedin: string;
+    instagram: string;
+  };
+}
+
+const portfolioData: PortfolioData = {
+  name: "Frederick Krisna Suryopranoto",
+  nickname: "FS",
+  role: "Full Stack Developer & Data Scientist",
+  email: "frederickkrisna@email.com",
+  phone: "+62 895-2953-2449",
+  location: "Jakarta, Indonesia",
+  bio: "Passionate developer with 3+ years of experience in creating modern web applications. I love turning ideas into beautiful, functional digital experiences.",
+  skills: [
+    "JavaScript", "TypeScript", "React", "Next.js", 
+    "Node.js", "Python", "PostgreSQL", "MongoDB", "AWS"
+  ],
+  projects: [
+    {
+      id: 1,
+      title: "Alzheimer Disease Prediction",
+      description: "AI-powered web app for early detection of Alzheimer's disease using machine learning algorithms.",
+      tech: ["Next.js", "TypeScript", "Node.js", "MongoDB", "Stripe"],
+      image: "/alzheimer_disease_prediction.png",
+      github: "https://github.com/Frederickkrisna/Alzheimer_Disease_Prediction",
+      website: "https://alzheimerdiseaseprediction.streamlit.app/"
+    },
+    {
+      id: 3,
+      title: "Salon Reservation System",
+      description: "A modern web application for managing salon appointments, featuring real-time booking and user-friendly interface.",
+      tech: ["React", "TypeScript", "Express", "Socket.io", "PostgreSQL"],
+      image: "/sea_salon.png",
+      github: "https://github.com/Frederickkrisna/sea-salon",
+      website: "https://frederickkrisna.github.io/sea-salon"
+    },
+    {
+      id: 2,
+      title: "Mood Bridge",
+      description: "A mental health web application for emotional analysis and tracking, featuring AI-driven insights and a user-friendly experience to support well-being.",
+      tech: ["React", "TypeScript", "Express", "Socket.io", "PostgreSQL"],
+      image: "/mood_bridge.png",
+      github: "https://github.com/Frederickkrisna/mood-bridge",
+      website: "https://mood-bridge.vercel.app/"
+    }
+  ],
+  experience: [
+    {
+      company: "Tech Startup Inc.",
+      role: "Senior Frontend Developer",
+      period: "2022 - Present",
+      description: "Led frontend development team, implemented modern React applications, improved performance by 40%."
+    },
+    {
+      company: "Digital Agency",
+      role: "Full Stack Developer",
+      period: "2021 - 2022",
+      description: "Developed custom web solutions for clients, worked with various technologies and frameworks."
+    }
+  ],
+  social: {
+    github: "https://github.com/Frederickkrisna",
+    linkedin: "https://www.linkedin.com/in/frederick-suryopranoto/",
+    instagram: "https://www.instagram.com/frederickkrisna/"
+  }
+};
+
+const techIcons: Record<string, JSX.Element> = {
+  'JavaScript': <TbBrandJavascript />,
+  'TypeScript': <SiTypescript />,
+  'React': <FaReact />,
+  'Next.js': <SiNextdotjs />,
+  'Node.js': <FaNodeJs />,
+  'Python': <FaPython />,
+  'PostgreSQL': <SiPostgresql />,
+  'MongoDB': <SiMongodb />,
+  'AWS': <FaAws />,
+  'Stripe': <SiStripe />,
+  'Socket.io': <SiSocketdotio />,
+  'FastAPI': <SiFastapi />,
+  'Express': <SiExpress />,
+};
+
+export default function HomePage() {
+  const [activeSection, setActiveSection] = useState<string>('home');
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = ['home', 'about', 'projects', 'experience', 'contact'];
+      const current = sections.find(section => {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          return rect.top <= 100 && rect.bottom >= 100;
+        }
+        return false;
+      });
+      if (current) setActiveSection(current);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (sectionId: string): void => {
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    setIsMenuOpen(false);
+  };
+
+  const menuItems = ['home', 'about', 'projects', 'experience', 'contact'];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      {/* Navigation */}
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4">
+            <div className="text-2xl font-bold text-gray-900">
+              {portfolioData.name.split(' ')[0]}
+            </div>
+            
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8">
+              {menuItems.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className={`text-sm font-medium transition-colors capitalize ${
+                    activeSection === item 
+                      ? 'text-blue-600' 
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span className={`bg-gray-900 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}></span>
+                <span className={`bg-gray-900 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                <span className={`bg-gray-900 block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}></span>
+              </div>
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden py-4 border-t border-gray-100">
+              {menuItems.map((item) => (
+                <button
+                  key={item}
+                  onClick={() => scrollToSection(item)}
+                  className="block w-full text-left py-2 text-gray-600 hover:text-gray-900 capitalize"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
+      </nav>
+
+      <main className="pt-16">
+        {/* Hero Section */}
+        <section id="home" className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="mb-8">
+              <div className="w-32 h-32 mx-auto mb-6 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-4xl font-bold text-white shadow-lg">
+                {portfolioData.nickname}
+              </div>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+              {portfolioData.name}
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-600 mb-8 flex items-center justify-center gap-2">
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {portfolioData.role}
+              </span>
+            </p>
+            <p className="text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
+              {portfolioData.bio}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="btn-primary flex items-center justify-center gap-2"
+              >
+                <FiExternalLink />
+                View My Work
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="btn-secondary flex items-center justify-center gap-2"
+              >
+                <FiMail />
+                Get In Touch
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section id="about" className="py-20 bg-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">About Me</h2>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div>
+                <h3 className="text-2xl font-semibold mb-6 text-gray-900 flex items-center gap-2">
+                  Skills & Technologies
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {portfolioData.skills.map((skill, index) => (
+                    <div
+                      key={index}
+                      className="skill-badge flex items-center justify-center gap-2"
+                    >
+                      {techIcons[skill] || <FiCode />}
+                      {skill}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h3 className="text-2xl font-semibold mb-6 text-gray-900 flex items-center gap-2">
+                  Contact Info
+                </h3>
+                <div className="space-y-4">
+                  <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                    <FiMail className="text-blue-600 text-xl" />
+                    <span className="text-gray-700">{portfolioData.email}</span>
+                  </div>
+                  <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                    <FiPhone className="text-blue-600 text-xl" />
+                    <span className="text-gray-700">{portfolioData.phone}</span>
+                  </div>
+                  <div className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
+                    <FiMapPin className="text-blue-600 text-xl" />
+                    <span className="text-gray-700">{portfolioData.location}</span>
+                  </div>
+                </div>
+                <div className="flex space-x-6 mt-8">
+                  <a 
+                    href={portfolioData.social.github} 
+                    className="text-gray-600 hover:text-gray-900 transition-colors font-medium hover:underline flex items-center gap-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FiGithub /> GitHub
+                  </a>
+                  <a 
+                    href={portfolioData.social.linkedin} 
+                    className="text-gray-600 hover:text-gray-900 transition-colors font-medium hover:underline flex items-center gap-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FiLinkedin /> LinkedIn
+                  </a>
+                  <a 
+                    href={portfolioData.social.instagram} 
+                    className="text-gray-600 hover:text-gray-900 transition-colors font-medium hover:underline flex items-center gap-1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FiInstagram /> Instagram
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Projects Section */}
+        <section id="projects" className="py-20 bg-gray-50">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">Featured Projects</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {portfolioData.projects.map((project) => (
+                <div 
+                  key={project.id} 
+                  className="card group"
+                >
+                  <div className="h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-gray-500 font-medium relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <Image 
+                      src={project.image}
+                      width={400}
+                      height={250} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    <div className="absolute bottom-4 right-4 flex gap-2">
+                      <a 
+                        href={project.github} 
+                        className="bg-white p-2 rounded-full text-gray-800 hover:bg-gray-100 transition-colors shadow-md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FiGithub />
+                      </a>
+                      <a 
+                        href={project.website} 
+                        className="bg-white p-2 rounded-full text-gray-800 hover:bg-gray-100 transition-colors shadow-md"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FiExternalLink />
+                      </a>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold mb-3 text-gray-900 group-hover:text-blue-600 transition-colors">{project.title}</h3>
+                    <p className="text-gray-600 mb-4 leading-relaxed">{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.tech.map((tech, index) => (
+                        <span
+                          key={index}
+                          className="tech-badge flex items-center gap-1"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Experience Section */}
+        <section id="experience" className="py-20 bg-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-4xl font-bold text-center mb-16 text-gray-900">Experience</h2>
+            <div className="max-w-3xl mx-auto space-y-8">
+              {portfolioData.experience.map((exp, index) => (
+                <div key={index} className="relative pl-8 pb-8 group">
+                  <div className="absolute left-0 top-1 w-4 h-4 rounded-full bg-blue-600 border-4 border-blue-100 z-10"></div>
+                  <div className="absolute left-2 top-5 bottom-0 w-0.5 bg-gray-200 group-last:hidden"></div>
+                  <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+                      <div>
+                        <h3 className="text-xl font-semibold text-gray-900">{exp.role}</h3>
+                        <h4 className="text-lg text-blue-600 font-medium">{exp.company}</h4>
+                      </div>
+                      <span className="text-gray-500 mt-2 md:mt-0 font-medium bg-gray-100 px-3 py-1 rounded-full text-sm">
+                        {exp.period}
+                      </span>
+                    </div>
+                    <p className="text-gray-600 leading-relaxed">{exp.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="py-20 bg-gradient-to-br from-gray-900 to-blue-900 text-white">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-4xl font-bold mb-8">Let's Work Together</h2>
+            <p className="text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed">
+              Have a project in mind? I'd love to hear about it. Let's chat and see how we can bring your ideas to life.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <a
+                href={`mailto:${portfolioData.email}`}
+                className="btn-primary flex items-center justify-center gap-2"
+              >
+                <FiMail />
+                Send Email
+              </a>
+              <a
+                href={`tel:${portfolioData.phone}`}
+                className="btn-secondary border-gray-600 text-gray-300 hover:bg-gray-800/50 flex items-center justify-center gap-2"
+              >
+                <FiPhone />
+                Call Me
+              </a>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-gray-400 py-8 border-t border-gray-800">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p>&copy; 2025 {portfolioData.name}. All rights reserved.</p>
+        </div>
       </footer>
-    </div>
+    </>
   );
 }
