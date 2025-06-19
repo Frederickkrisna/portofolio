@@ -51,7 +51,7 @@ const portfolioData: PortfolioData = {
   email: "frederickkrisna@email.com",
   phone: "+62 895-2953-2449",
   location: "Jakarta, Indonesia",
-  bio: "Passionate developer with 3+ years of experience in creating modern web applications. I love turning ideas into beautiful, functional digital experiences.",
+  bio: "Experienced Full Stack Developer and Data Scientist specializing in end-to-end web development, data-driven systems, and AI integration for modern applications.",
   skills: [
     "JavaScript", "TypeScript", "React", "Next.js", 
     "C Language", "Python", "PostgreSQL", "Firebase", "Java OOP", "Tailwind CSS",
