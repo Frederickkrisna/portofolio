@@ -3,9 +3,11 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { FiGithub, FiLinkedin, FiMail, FiPhone, FiMapPin, FiExternalLink, FiCode, FiInstagram} from 'react-icons/fi';
-import { FaReact, FaNodeJs, FaPython, FaAws } from 'react-icons/fa';
-import { SiTypescript, SiNextdotjs, SiPostgresql, SiMongodb, SiStripe, SiSocketdotio, SiFastapi, SiExpress } from 'react-icons/si';
+import { FaReact, FaNodeJs, FaPython, FaJava } from 'react-icons/fa';
+import { SiTypescript, SiNextdotjs, SiPostgresql, SiMongodb, SiFastapi, SiExpress } from 'react-icons/si';
 import { TbBrandJavascript } from 'react-icons/tb';
+import { IoLogoFirebase } from "react-icons/io5";
+import { RiTailwindCssFill } from "react-icons/ri";
 
 interface Project {
   id: number;
@@ -52,32 +54,32 @@ const portfolioData: PortfolioData = {
   bio: "Passionate developer with 3+ years of experience in creating modern web applications. I love turning ideas into beautiful, functional digital experiences.",
   skills: [
     "JavaScript", "TypeScript", "React", "Next.js", 
-    "Node.js", "Python", "PostgreSQL", "MongoDB", "AWS"
+    "C Language", "Python", "PostgreSQL", "Firebase", "Java OOP", "Tailwind CSS",
   ],
   projects: [
     {
       id: 1,
       title: "Alzheimer Disease Prediction",
       description: "AI-powered web app for early detection of Alzheimer's disease using machine learning algorithms.",
-      tech: ["Next.js", "TypeScript", "Node.js", "MongoDB", "Stripe"],
+      tech: ["Python", "Jupyter Notebook", "Streamlit", "AI", "Machine Learning"],
       image: "/alzheimer_disease_prediction.png",
       github: "https://github.com/Frederickkrisna/Alzheimer_Disease_Prediction",
       website: "https://alzheimerdiseaseprediction.streamlit.app/"
     },
     {
-      id: 3,
+      id: 2,
       title: "Salon Reservation System",
       description: "A modern web application for managing salon appointments, featuring real-time booking and user-friendly interface.",
-      tech: ["React", "TypeScript", "Express", "Socket.io", "PostgreSQL"],
+      tech: ["React.js", "TypeScript", "JavaScript", "Firebase", "Firestore", "Tailwind CSS"],
       image: "/sea_salon.png",
       github: "https://github.com/Frederickkrisna/sea-salon",
       website: "https://frederickkrisna.github.io/sea-salon"
     },
     {
-      id: 2,
+      id: 3,
       title: "Mood Bridge",
       description: "A mental health web application for emotional analysis and tracking, featuring AI-driven insights and a user-friendly experience to support well-being.",
-      tech: ["React", "TypeScript", "Express", "Socket.io", "PostgreSQL"],
+      tech: ["React Vite", "NLP", "Jupyter Notebook", "TypeScript", "Python", "Tailwind CSS"],
       image: "/mood_bridge.png",
       github: "https://github.com/Frederickkrisna/mood-bridge",
       website: "https://mood-bridge.vercel.app/"
@@ -85,16 +87,28 @@ const portfolioData: PortfolioData = {
   ],
   experience: [
     {
-      company: "Tech Startup Inc.",
-      role: "Senior Frontend Developer",
-      period: "2022 - Present",
-      description: "Led frontend development team, implemented modern React applications, improved performance by 40%."
+      company: "Assistant Laboratory",
+      role: "Part-time Assistant",
+      period: "2024 - 2025",
+      description: "Teaching Introduction to Programming with Java and Algorithms & Programming to over 100 students across Computer Science and DBI programs, covering basic Java and the four pillars of OOP. Additionally, designed competitive programming problems for weekly Online Judge assignments, developed final exam practicum cases, and was recognized as the Best Assistant Lab for outstanding performance."
     },
     {
-      company: "Digital Agency",
-      role: "Full Stack Developer",
-      period: "2021 - 2022",
-      description: "Developed custom web solutions for clients, worked with various technologies and frameworks."
+      company: "Share IT HIMTI Binus",
+      role: "The Chief Committee",
+      period: "2024 - 2025",
+      description: "Acted as the event chairperson, responsible for assembling the team, managing member tasks, and overseeing the successful execution of the event."
+    },
+    {
+      company: "Computer Class HIMTI Binus",
+      role: "Teaching Instructor",
+      period: "2024",
+      description: "Designed and delivered instructional materials for core computer science subjects, with a focus on Linear Algebra and Discrete Mathematics."
+    },
+    {
+      company: "Summer Class HIMTI Binus",
+      role: "Teaching Instructor",
+      period: "2024",
+      description: "Developed teaching materials and presentations for Algorithm and Programming subjects, covering basic algorithm concepts, programming logic, and code implementation using programming languages."
     }
   ],
   social: {
@@ -113,11 +127,12 @@ const techIcons: Record<string, JSX.Element> = {
   'Python': <FaPython />,
   'PostgreSQL': <SiPostgresql />,
   'MongoDB': <SiMongodb />,
-  'AWS': <FaAws />,
-  'Stripe': <SiStripe />,
-  'Socket.io': <SiSocketdotio />,
+  'Java OOP': <FaJava />,
   'FastAPI': <SiFastapi />,
   'Express': <SiExpress />,
+  'Firebase': <IoLogoFirebase />,
+  'Tailwind CSS': <RiTailwindCssFill />,
+  'C Language': <FiCode />
 };
 
 export default function HomePage() {
